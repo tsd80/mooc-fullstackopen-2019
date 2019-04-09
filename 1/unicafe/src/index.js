@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom'
 
 const Button = (props) => (<button onClick={props.handleClick}>{props.text}</button>);
 
+const Statistic = ({text, value}) => {
+  return (
+      <div>{text} {value}</div>
+  )
+};
+
 const Statistics = ({good, neutral, bad}) => {
   const sum = good+neutral+bad;
   const avg = (good + bad*-1)/sum;
@@ -12,11 +18,11 @@ const Statistics = ({good, neutral, bad}) => {
   return (
       <div>
         <h2>statistiikka</h2>
-        <div>hyvä {good}</div>
-        <div>neutraali {neutral}</div>
-        <div>huono {bad}</div>
-        <div>yhteensä {sum}</div>
-        <div>keskiarvo {avg}</div>
+        <Statistic text="hyvä" value={good}/>
+        <Statistic text="neutraali" value={neutral}/>
+        <Statistic text="huono" value={bad}/>
+        <Statistic text="yhteensä" value={sum}/>
+        <Statistic text="keskiarvo" value={avg}/>
         <div>positiivisia {positive} %</div>
       </div>
   )}
