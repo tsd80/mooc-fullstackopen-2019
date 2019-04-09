@@ -8,6 +8,7 @@ const Statistics = ({good, neutral, bad}) => {
   const avg = (good + bad*-1)/sum;
   const positive = good/sum*100;
 
+  if (sum) {
   return (
       <div>
         <h2>statistiikka</h2>
@@ -18,7 +19,12 @@ const Statistics = ({good, neutral, bad}) => {
         <div>keskiarvo {avg}</div>
         <div>positiivisia {positive} %</div>
       </div>
-  )
+  )}
+  else {
+    return (
+        <div>Ei yhtään palautetta annettu</div>
+    )
+  }
 };
 
 const App = () => {
