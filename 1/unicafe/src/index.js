@@ -5,7 +5,7 @@ const Button = (props) => (<button onClick={props.handleClick}>{props.text}</but
 
 const Statistic = ({text, value}) => {
   return (
-      <div>{text} {value}</div>
+      <tr><td>{text}</td><td> {value}</td></tr>
   )
 };
 
@@ -18,12 +18,16 @@ const Statistics = ({good, neutral, bad}) => {
   return (
       <div>
         <h2>statistiikka</h2>
-        <Statistic text="hyvä" value={good}/>
-        <Statistic text="neutraali" value={neutral}/>
-        <Statistic text="huono" value={bad}/>
-        <Statistic text="yhteensä" value={sum}/>
-        <Statistic text="keskiarvo" value={avg}/>
-        <div>positiivisia {positive} %</div>
+        <table>
+          <tbody>
+          <Statistic text="hyvä" value={good}/>
+          <Statistic text="neutraali" value={neutral}/>
+          <Statistic text="huono" value={bad}/>
+          <Statistic text="yhteensä" value={sum}/>
+          <Statistic text="keskiarvo" value={avg}/>
+          <tr><td>positiivisia</td><td> {positive} %</td></tr>
+          </tbody>
+        </table>
       </div>
   )}
   else {
