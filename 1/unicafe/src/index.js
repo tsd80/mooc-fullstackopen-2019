@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom'
 const Button = (props) => (<button onClick={props.handleClick}>{props.text}</button>);
 
 const App = () => {
-  // tallenna napit omaan tilaansa
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
@@ -19,6 +18,9 @@ const App = () => {
         <div>hyvä {good}</div>
         <div>neutraali {neutral}</div>
         <div>huono {bad}</div>
+        <div>yhteensä {good+neutral+bad}</div>
+        <div>keskiarvo {((good*1)+(neutral*0)+(bad*-1))/(good+neutral+bad)}</div>
+        <div>positiivisia {good/(good+neutral+bad)*100} %</div>
       </div>
   )
 };
