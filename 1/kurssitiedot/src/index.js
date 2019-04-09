@@ -9,7 +9,7 @@ const Header = (props) => {
 }
 
 const Content = (props) => {
-  const [first,second,third] = props.parts
+  const [first,second,third] = props.parts.parts
   return (
       <div>
         <Part part={first}/>
@@ -27,7 +27,7 @@ const Part = (props) => {
 
 const Total = (props) => {
   let x=0
-  props.total.map (xx => x += xx.exercises)
+  props.total.parts.map (xx => x += xx.exercises)
   return (
       <p>yhteensä {x} tehtävää</p>
   )
@@ -35,27 +35,29 @@ const Total = (props) => {
 
 
 const App = () => {
-  const course = 'Half Stack -sovelluskehitys'
-  const parts = [
-    {
-      name: 'Reactin perusteet',
-      exercises: 10
-    },
-    {
-      name: 'Tiedonvälitys propseilla',
-      exercises: 7
-    },
-    {
-      name: 'Komponenttien tila',
-      exercises: 14
-    }
-  ]
+  const course = {
+    name: 'Half Stack -sovelluskehitys',
+    parts: [
+      {
+        name: 'Reactin perusteet',
+        exercises: 10
+      },
+      {
+        name: 'Tiedonvälitys propseilla',
+        exercises: 7
+      },
+      {
+        name: 'Komponenttien tila',
+        exercises: 14
+      }
+    ]
+  }
 
   return (
       <div>
-        <Header course={course}/>
-        <Content parts={parts}/>
-        <Total total={parts}/>
+        <Header course={course.name}/>
+        <Content parts={course}/>
+        <Total total={course}/>
       </div>
   )
 }
