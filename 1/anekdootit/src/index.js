@@ -3,6 +3,17 @@ import ReactDOM from 'react-dom'
 
 const Button = (props) => (<button onClick={props.handleClick}>{props.text}</button>);
 
+const GetTop = ({score, text}) => {
+  const maxIndex = score.indexOf(Math.max(...score));
+  return (
+      <div>
+        <h2>Anecdote with most votes</h2>
+        <div>{text[maxIndex]}</div>
+        <div>has {score[maxIndex]} points</div>
+      </div>
+  );
+};
+
 const App = (props) => {
 
   const [selected, setSelected] = useState(0);
@@ -20,6 +31,7 @@ const App = (props) => {
         <div>has {score[selected]} points</div>
         <Button handleClick={() => setSelected(Math.floor(Math.random()*props.anecdotes.length))} text="next anecdote"/>
         <Button handleClick={() => handleScore(selected)} text="Vote it!"/>
+        <GetTop score={score} text={props.anecdotes}/>
       </div>
   )
 };
