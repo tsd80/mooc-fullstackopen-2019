@@ -17,18 +17,20 @@ const App = () => {
     {name: 'Arto Hellas' },
     {name: 'Esko Ukkonen'}
   ]);
-  const [ newName, setNewName ] = useState('');
+  const [newName, setNewName] = useState('');
 
   const addPerson = (e) => {
     e.preventDefault();
-    const personObj = {
-      name: newName
-    };
-    setPersons(persons.concat(personObj));
-    setNewName('');
+
+    if (persons.some((person) =>person.name===newName)) {window.alert(`${newName} on jo luettelossa`)}
+    else {
+      const personObj = {name: newName};
+      setPersons(persons.concat(personObj));
+      setNewName('');
+    }
   };
 
-  const onNameChage = (e) => setNewName(e.target.value);
+  const onNameChange = (e) => setNewName(e.target.value);
 
 
   return (
@@ -37,7 +39,7 @@ const App = () => {
         <h2>Puhelinluettelo</h2>
         <form onSubmit={addPerson}>
           <div>
-            nimi: <input value={newName} onChange={onNameChage}/>
+            nimi: <input value={newName} onChange={onNameChange}/>
           </div>
           <div>
             <button type="submit">lisää</button>
