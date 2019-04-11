@@ -37,7 +37,7 @@ const Total = (props) => {
   let x=0;
   props.total.parts.map (xx => x += xx.exercises);
   return (
-      <div className="total">yhteensä {x} tehtävää</div>
+      <div className="total"> yhteensä {x} tehtävää</div>
   )
 };
 
