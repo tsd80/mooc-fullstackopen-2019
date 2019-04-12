@@ -2,10 +2,6 @@ import React, { useState } from 'react'
 
 const PrintOut = (props) => {
   let i=0;
-
-  //notes.filter(note => note.important);
-
-
   const names = () => props.list.map((name) => {
     i++;
     if (name.name.toLowerCase().indexOf(props.search)!==-1){
@@ -18,6 +14,24 @@ const PrintOut = (props) => {
 const Name = (props) => {
   return (
       <div>{props.name.name} {props.name.numero}</div>
+  )
+};
+
+const Filter = (props) => {
+  return (
+      <div>rajaa näyettäviä: <input value={props.search} onChange={props.func}/></div>
+  )
+};
+
+const NewForm = (props) => {
+  return (
+      <form onSubmit={props.addPerson}>
+        <div>nimi: <input value={props.newName} onChange={props.onNameChange} name="test"/></div>
+        <div>puhelinnumero: <input value={props.newPhone} onChange={props.onPhoneChange}/></div>
+        <div>
+          <button type="submit">lisää</button>
+        </div>
+      </form>
   )
 };
 
@@ -54,15 +68,9 @@ const App = () => {
       <div>
 
         <h2>Puhelinluettelo</h2>
-        <form onSubmit={addPerson}>
-          <div>nimi: <input value={newName} onChange={onNameChange} name="test"/></div>
-          <div>puhelinnumero: <input value={newPhone} onChange={onPhoneChange}/></div>
-          <div>
-            <button type="submit">lisää</button>
-          </div>
-        </form>
+        <NewForm addPerson={addPerson} newName={newName} onNameChange={onNameChange} newPhone={newPhone} onPhoneChange={onPhoneChange}/>
         <h2>Numerot</h2>
-        <div>rajaa näyettäviä: <input value={search} onChange={onSearchChange}/></div>
+        <Filter search={search} func={onSearchChange}/>
         <PrintOut list={persons} search={search}/>
       </div>
   )
