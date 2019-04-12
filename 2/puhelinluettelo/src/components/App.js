@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 
 const PrintOut = (props) => {
   let i=0;
@@ -13,7 +14,7 @@ const PrintOut = (props) => {
 
 const Name = (props) => {
   return (
-      <div>{props.name.name} {props.name.numero}</div>
+      <div>{props.name.name} {props.name.number}</div>
   )
 };
 
@@ -36,17 +37,13 @@ const NewForm = (props) => {
 };
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    {name: 'Arto Hellas', numero: '045-123456' },
-    {name: 'Esko Ukkonen', numero: '09-223345'},
-    {name: 'Martti Tienari', numero: '040-123456'},
-    {name: 'Arto Järvinen', numero: '040-123532'},
-    {name: 'Lea Kutvonen', numero: '040-12344564'}
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newPhone, setNewPhone] = useState('');
   const [search, setSearch] = useState('');
-
+  const onNameChange = (e) => setNewName(e.target.value);
+  const onPhoneChange = (e) => setNewPhone(e.target.value);
+  const onSearchChange = (e) => setSearch(e.target.value);
   const addPerson = (e) => {
     console.log(e.target.name);
     e.preventDefault();
@@ -60,9 +57,7 @@ const App = () => {
     }
   };
 
-  const onNameChange = (e) => setNewName(e.target.value);
-  const onPhoneChange = (e) => setNewPhone(e.target.value);
-  const onSearchChange = (e) => setSearch(e.target.value);
+  useEffect(()=> {axios.get('http://localhost:3001/persons').then (resp =>{setPersons(resp.data)})},[]);
 
   return (
       <div>
