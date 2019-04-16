@@ -9,10 +9,17 @@ const Search = (props) =>{
 
 const Results = (props) => {
   //console.log(props.list[150], props.search);
+  const buttonPressed = (e) => {
+    e.preventDefault();
+    console.log(e.target);
+  };
 
   const countryList = () => props.list
   .filter(country => country.name.toLowerCase().indexOf(props.search)!==-1)
-  .map(country =><Country name={country} key={country.name}/>);
+  .map(country =>{
+
+    return <Country name={country} key={country.name} button={buttonPressed}/>
+  });
 
   if (countryList().length>10) {return (<div>Too many matches, specify another filter</div>)}
   else if (countryList().length>1) {return (<div>{countryList()}</div>)}
@@ -22,12 +29,12 @@ const Results = (props) => {
 };
 
 const Country = (props) => {
-  return (<div>Country {props.name.name}</div>)
+  return (<div>Country {props.name.name} <button onClick={props.button} id={props.name.name}>show</button></div>)
 };
 
 const CountryFull = (props) => {
   let info = props.data[0].props.name;
-  console.log(info);
+  //console.log(info);
   const getLangs = () => info.languages.map (lang=><li key={lang.iso639_1}>{lang.name}</li>);
   return (
       <div>
@@ -36,7 +43,7 @@ const CountryFull = (props) => {
         <div>population {info.population}</div>
         <h3>Languages</h3>
         <ul>{getLangs()}</ul>
-        <div><img src={info.flag} alt="Logo" height="100"/></div>
+        <div><img src={info.flag} alt="flag" height="100"/></div>
       </div>
   )
 };
@@ -51,8 +58,8 @@ const App = () => {
   return (
       <div>
         <Search search={search} func={onSearchChange}/>
+        <br/>
         <Results list={countries} search={search}/>
-        <div>Debug: {search}</div>
       </div>
   )
 
