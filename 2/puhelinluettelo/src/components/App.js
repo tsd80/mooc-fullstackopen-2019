@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import catalogService from '../services/communication'
 
-const PrintOut = (props) => {
-  let i=0;
-  const names = () => props.list.map((name) => {
-    i++;
-    if (name.name.toLowerCase().indexOf(props.search)!==-1){
-    return <Name name={name} key={i}/>}
+const PrintOut = ({list, search, onDelete}) => {
+  const names = () => list.map((singleName) => {
+    if (singleName.name.toLowerCase().indexOf(search)!==-1){
+      return <Name name={singleName} key={singleName.id} onDelete={onDelete}/>}
     else {return ''}
   });
   return (<div>{names()}</div>)
 };
 
-const Name = (props) => {
+const Name = ({name, onDelete}) => {
   return (
-      <div>{props.name.name} {props.name.number}</div>
+      <div>{name.name} {name.number} <button id={name.id} name={name.name} onClick={onDelete}>poista</button></div>
   )
 };
 
@@ -45,19 +43,23 @@ const App = () => {
   const onPhoneChange = (e) => setNewPhone(e.target.value);
   const onSearchChange = (e) => setSearch(e.target.value);
   const addPerson = (e) => {
-    console.log(e.target.name);
     e.preventDefault();
-
     if (persons.some((person) =>person.name===newName)) {window.alert(`${newName} on jo luettelossa`)}
     else {
       const personObj = {name: newName, number: newPhone};
-
-
       catalogService.createNew(personObj).then(resp => {
         setPersons(persons.concat(resp));
         setNewName('');
         setNewPhone('');
       });
+    }
+  };
+
+  const deletePerson = (e) => {
+    if (window.confirm('Poistetaanko '+e.target.name)) {
+      catalogService.deletePerson(e.target.id)
+      .then(() => catalogService.getAll())
+      .then(updateInfo => setPersons(updateInfo));
     }
   };
 
@@ -70,7 +72,7 @@ const App = () => {
         <NewForm addPerson={addPerson} newName={newName} onNameChange={onNameChange} newPhone={newPhone} onPhoneChange={onPhoneChange}/>
         <h2>Numerot</h2>
         <Filter search={search} func={onSearchChange}/>
-        <PrintOut list={persons} search={search}/>
+        <PrintOut list={persons} search={search} onDelete={deletePerson}/>
       </div>
   )
 

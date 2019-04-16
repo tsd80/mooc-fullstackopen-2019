@@ -10,4 +10,8 @@ const createNew = newObj => {
   return axios.post(conUrl,newObj).then(resp=>resp.data)
 };
 
-export default {getAll,createNew}
+const deletePerson = id => {
+  return axios.delete(`${conUrl}/${id}`).then(resp=>resp.data)
+};
+
+export default {getAll,createNew, deletePerson}
