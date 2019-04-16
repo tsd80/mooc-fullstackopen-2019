@@ -20,7 +20,7 @@ const Name = (props) => {
 
 const Filter = (props) => {
   return (
-      <div>rajaa näyettäviä: <input value={props.search} onChange={props.func}/></div>
+      <div>rajaa näyettäviä: <input value={props.search} onChange={props.func}/><br /><br /></div>
   )
 };
 
@@ -50,10 +50,15 @@ const App = () => {
 
     if (persons.some((person) =>person.name===newName)) {window.alert(`${newName} on jo luettelossa`)}
     else {
-      const personObj = {name: newName, numero: newPhone};
-      setPersons(persons.concat(personObj));
-      setNewName('');
-      setNewPhone('');
+      const personObj = {name: newName, number: newPhone};
+
+      axios
+      .post('http://localhost:3001/persons',personObj)
+      .then (resp=>{
+        setPersons(persons.concat(resp.data));
+        setNewName('');
+        setNewPhone('');
+      });
     }
   };
 
