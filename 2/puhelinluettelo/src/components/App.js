@@ -25,7 +25,7 @@ const Filter = (props) => {
 const NewForm = (props) => {
   return (
       <form onSubmit={props.addPerson}>
-        <div>nimi: <input value={props.newName} onChange={props.onNameChange} name="test"/></div>
+        <div>nimi: <input value={props.newName} onChange={props.onNameChange}/></div>
         <div>puhelinnumero: <input value={props.newPhone} onChange={props.onPhoneChange}/></div>
         <div>
           <button type="submit">lisää</button>
@@ -44,7 +44,15 @@ const App = () => {
   const onSearchChange = (e) => setSearch(e.target.value);
   const addPerson = (e) => {
     e.preventDefault();
-    if (persons.some((person) =>person.name===newName)) {window.alert(`${newName} on jo luettelossa`)}
+    const findPerson = persons.filter(person => person.name.toLowerCase() === newName.toLowerCase());
+    if (findPerson.length!==0) {
+      if (window.confirm(findPerson[0].name+" on jo luettelossa, korvataanko vanha numero uudella?")) {
+        const updatedPerson = {name: findPerson[0].name, number: newPhone, id:findPerson[0].id};
+        catalogService.updatePerson(updatedPerson)
+            .then(()=>catalogService.getAll())
+            .then(updateInfo => setPersons(updateInfo));
+      }
+    }
     else {
       const personObj = {name: newName, number: newPhone};
       catalogService.createNew(personObj).then(resp => {
