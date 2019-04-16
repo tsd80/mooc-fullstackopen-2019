@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import catalogService from '../services/communication'
 
 const PrintOut = (props) => {
   let i=0;
@@ -52,21 +52,20 @@ const App = () => {
     else {
       const personObj = {name: newName, number: newPhone};
 
-      axios
-      .post('http://localhost:3001/persons',personObj)
-      .then (resp=>{
-        setPersons(persons.concat(resp.data));
+
+      catalogService.createNew(personObj).then(resp => {
+        setPersons(persons.concat(resp));
         setNewName('');
         setNewPhone('');
       });
     }
   };
 
-  useEffect(()=> {axios.get('http://localhost:3001/persons').then (resp =>{setPersons(resp.data)})},[]);
+  useEffect(() => {
+    catalogService.getAll().then(initialInfo => setPersons(initialInfo))}, []);
 
   return (
       <div>
-
         <h2>Puhelinluettelo</h2>
         <NewForm addPerson={addPerson} newName={newName} onNameChange={onNameChange} newPhone={newPhone} onPhoneChange={onPhoneChange}/>
         <h2>Numerot</h2>
